@@ -73,30 +73,8 @@ Image Handling: Uses multer for handling multipart/form-data and uploads images 
 
 
 
-Project Structure
-/
-├── admin/         # React (Vite) Admin Panel
-│   ├── src/
-│   │   ├── pages/   # Add, List, Orders
-│   │   └── ...
-│   └── vercel.json
-│
-├── backend/       # Node.js (Express) API
-│   ├── config/    # MongoDB & Cloudinary connection
-│   ├── controllers/ # Business logic
-│   ├── middleware/  # Auth (user & admin), Multer
-│   ├── models/      # Mongoose schemas (User, Product, Order)
-│   ├── routes/      # API endpoints
-│   ├── server.js    # Server entry point
-│   └── vercel.json
-│
-└── frontend/      # React (Vite) Client App
-    ├── src/
-    │   ├── components/
-    │   ├── context/   # ShopContext (Global State)
-    │   ├── pages/     # Home, Product, Cart, Login, etc.
-    │   └── ...
-    └── vercel.json
+## Project Structure
+/ ├── admin/ # React (Vite) Admin Panel │ ├── src/ │ │ ├── pages/ # Add, List, Orders │ │ └── ... │ └── vercel.json │ ├── backend/ # Node.js (Express) API │ ├── config/ # MongoDB & Cloudinary connection │ ├── controllers/ # Business logic │ ├── middleware/ # Auth (user & admin), Multer │ ├── models/ # Mongoose schemas (User, Product, Order) │ ├── routes/ # API endpoints │ ├── server.js # Server entry point │ └── vercel.json │ └── frontend/ # React (Vite) Client App ├── src/ │ ├── components/ │ ├── context/ # ShopContext (Global State) │ ├── pages/ # Home, Product, Cart, Login, etc. │ └── ... └── vercel.json
 
 
 
