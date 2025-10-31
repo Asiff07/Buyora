@@ -13,6 +13,8 @@ Buyora is a complete, feature-rich MERN-stack (MongoDB, Express.js, React, Node.
 # Project Showcase
 
 
+<img width="1919" height="920" alt="Screenshot 2025-11-01 005546" src="https://github.com/user-attachments/assets/c2f576b4-2835-450f-85b2-f0fd6870b053" />
+
 
 
 
