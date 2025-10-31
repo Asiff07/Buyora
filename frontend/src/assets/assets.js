@@ -55,6 +55,7 @@ import p_img51 from './p_img51.png'
 import p_img52 from './p_img52.png'
 import profile from './profile.png'
 import signature from './signature.png'
+import buyora from './buyora.png'
 
 
 import logo from './logo.png'
@@ -96,7 +97,8 @@ export const assets = {
     stripe_logo,
     cross_icon,
     profile,
-    signature
+    signature,
+    buyora
 }
 
 export const products = [
