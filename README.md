@@ -63,12 +63,19 @@ Tech Stack
 Category	        Technology
 
 Frontend	        React (Hooks, Context API), Vite, react-router-dom, Tailwind CSS, Axios
+
 Backend	            Node.js, Express.js
+
 Database	        MongoDB (with Mongoose)
+
 Authentication	    JSON Web Tokens (JWT), Bcrypt
+
 File Storage	    Cloudinary (for product images), Multer
+
 Payment	            Stripe, Razorpay
+
 Deployment	        Vercel (for Frontend, Backend, and Admin)
+
 
 
 
