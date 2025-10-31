@@ -43,6 +43,13 @@ function Navbar() {
           <hr className='w-2/4 border-none h-[1.5px] bg-gray-700 hidden' />
         </NavLink>
 
+        {/* --- ADDED ADMIN PANEL LINK (Desktop) --- */}
+        <a href="https://buyora-admin.vercel.app/" target="_blank" rel="noopener noreferrer" className='flex flex-col items-center gap-1'>
+          <p>ADMIN PANEL</p>
+          <hr className='w-2/4 border-none h-[1.5px] bg-gray-700 hidden' />
+        </a>
+        {/* ------------------------------------- */}
+
       </ul>
       <div className='flex items-center gap-6'>
         <img onClick={()=>setShowSearch(true)} src={assets.search_icon} className='w-5 cursor-pointer' alt="Search" />
@@ -75,6 +82,13 @@ function Navbar() {
           <NavLink onClick={()=>setVisible(false)} className='py-2 pl-6 border-t border-gray-300' to='/collection'>COLLECTION</NavLink>
           <NavLink onClick={()=>setVisible(false)} className='py-2 pl-6 border-t border-gray-300' to='/about'>ABOUT</NavLink>
           <NavLink onClick={()=>setVisible(false)} className='py-2 pl-6 border-t border-gray-300' to='/contact'>CONTACT</NavLink>
+          
+          {/* --- ADDED ADMIN PANEL LINK (Mobile) --- */}
+          <a onClick={()=>setVisible(false)} className='py-2 pl-6 border-t border-gray-300' href="https://buyora-admin.vercel.app/" target="_blank" rel="noopener noreferrer">
+            ADMIN PANEL
+          </a>
+          {/* ------------------------------------- */}
+
         </div>
       </div>
     </div>
