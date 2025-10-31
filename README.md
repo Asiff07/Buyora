@@ -1,4 +1,4 @@
-# Buyora - Full-Stack E-commerce Platform
+# Buyora - Full-Stack E-Commerce Platform
 Buyora is a complete, feature-rich MERN-stack (MongoDB, Express.js, React, Node.js) e-commerce application. It consists of three main parts: a responsive customer-facing frontend, a secure RESTful backend API, and a dedicated admin panel for managing the store.
 
 # Deployed Links
