@@ -58,23 +58,17 @@ Payment Integration: Server-side logic to create payment sessions for Stripe and
 Image Handling: Uses multer for handling multipart/form-data and uploads images to Cloudinary.
 
 
-Tech Stack
+## Tech Stack
 
-Category	        Technology
-
-Frontend	        React (Hooks, Context API), Vite, react-router-dom, Tailwind CSS, Axios
-
-Backend	            Node.js, Express.js
-
-Database	        MongoDB (with Mongoose)
-
-Authentication	    JSON Web Tokens (JWT), Bcrypt
-
-File Storage	    Cloudinary (for product images), Multer
-
-Payment	            Stripe, Razorpay
-
-Deployment	        Vercel (for Frontend, Backend, and Admin)
+| Category | Technology |
+| :--- | :--- |
+| **Frontend** | React (Hooks, Context API), Vite, `react-router-dom`, Tailwind CSS, Axios |
+| **Backend** | Node.js, Express.js |
+| **Database** | MongoDB (with Mongoose) |
+| **Authentication** | JSON Web Tokens (JWT), Bcrypt |
+| **File Storage** | Cloudinary (for product images), Multer |
+| **Payment** | Stripe, Razorpay |
+| **Deployment** | Vercel (for Frontend, Backend, and Admin) |
 
 
 
