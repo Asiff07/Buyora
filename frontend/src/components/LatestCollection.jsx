@@ -12,7 +12,7 @@ const LatestCollection = () => {
     return (
         <div className='my-10'>
             <div className='text-center py-8 text-3xl'>
-                <Title text1={'LATEST'} text2={'COLLECTIONS'} />
+                <Title text1={"THIS SEASON'S"} text2={'PICKS'} />
                 <p className='w-3/4 m-auto text-xs sm:text-sm md:text-base text-gray-600'>
                     Discover the latest trends with Buyora’s newest collections — fresh styles, premium quality, and unbeatable value, all in one place.</p>
             </div>
