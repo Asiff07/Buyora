@@ -21,10 +21,7 @@
     "multer": "^2.0.2",
     "nodemon": "^3.1.10",
     "razorpay": "^2.9.6",
-<<<<<<< HEAD
     "redis": "^5.10.0",
-=======
->>>>>>> 16cad9e1b1e8ab1ae9e7ebda60a0fa38f10d8d8c
     "stripe": "^19.1.0",
     "validator": "^13.15.15"
   }
