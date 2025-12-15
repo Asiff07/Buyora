@@ -9,18 +9,27 @@ function Login({setToken}) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const onSubmitHandler = async(e) => {
+   const onSubmitHandler = async(e) => {
         try {
             e.preventDefault();
             const response = await axios.post(backendUrl+'/api/users/admin',{email,password});
+            
             if(response.data.success){
                 setToken(response.data.token);
-            }else{
-                toast.error(response.data.message);
+            } else {
+                // FIXED: Backend uses 'msg', not 'message'
+                toast.error(response.data.msg);
             }
             
         } catch (error) {
-            toast.error(error.response.data.message);
+            console.log(error);
+            if (error.response && error.response.data && error.response.data.message) {
+                toast.error(error.response.data.message);
+            } else if (error.response && error.response.data && error.response.data.msg) {
+                toast.error(error.response.data.msg);
+            } else {
+                toast.error(error.message);
+            }
         }
     }
 

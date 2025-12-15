@@ -42,8 +42,13 @@ const Login = () => {
            }
         } catch(error){
             console.log(error);
-            
-            toast.error(error.message);
+            if (error.response && error.response.data && error.response.data.message) {
+                toast.error(error.response.data.message);
+            } else if (error.response && error.response.data && error.response.data.msg) {
+                toast.error(error.response.data.msg);
+            } else {
+                toast.error(error.message);
+            }
         }
     }
     useEffect(()=>{
