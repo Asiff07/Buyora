@@ -8,10 +8,10 @@ const currency = 'usd';
 const deliveryCharge = 50;
 
 //Gateway initialize
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'dummy_stripe_key');
 const razorpayInstance = new Razorpay({
-    key_id: process.env.RAZORPAY_KEY_ID,
-    key_secret: process.env.RAZORPAY_KEY_SECRET,
+    key_id: process.env.RAZORPAY_KEY_ID || 'dummy_razorpay_key',
+    key_secret: process.env.RAZORPAY_KEY_SECRET || 'dummy_razorpay_secret',
 })
 
 
