@@ -20,11 +20,11 @@ app.set('trust proxy', 1); // Trust first proxy (Nginx) for correct client IP de
 app.use(express.json());
 app.use(cors());
 
-// Global Rate Limiting using Redis (100 requests per 15 minutes)
+// Global Rate Limiting using Redis (Relaxed: 500 requests per 15 minutes for browsing catalog)
 import { rateLimiter } from './middleware/rateLimiter.js';
 app.use(rateLimiter({
     keyPrefix: 'global-api',
-    limit: 100,
+    limit: 500,
     windowSeconds: 15 * 60
 }));
 
