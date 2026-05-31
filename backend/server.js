@@ -16,8 +16,17 @@ connectDB();
 connectCloudinary();
 
 //Middlewares
+app.set('trust proxy', 1); // Trust first proxy (Nginx) for correct client IP detection
 app.use(express.json());
 app.use(cors());
+
+// Global Rate Limiting using Redis (100 requests per 15 minutes)
+import { rateLimiter } from './middleware/rateLimiter.js';
+app.use(rateLimiter({
+    keyPrefix: 'global-api',
+    limit: 100,
+    windowSeconds: 15 * 60
+}));
 
 
 // API Endpoints
