@@ -4,7 +4,7 @@ export const rateLimiter = ({ keyPrefix, limit, windowSeconds }) => {
     return async (req, res, next) => {
         try {
             
-            const identifier = req.body.userId || req.user?._id?.toString() || req.ip;
+            const identifier = req.body?.userId || req.user?._id?.toString() || req.ip;
 
             if (!identifier) {
                 return res.status(400).json({ success: false, message: 'Unable to identify client' });

@@ -83,7 +83,6 @@ const listProducts = async (req, res) => {
         const [products, total] = await Promise.all([
             productModel
                 .find({})
-                .select("name price image category subCategory")
                 .sort({ createdAt: -1 }) // IMPORTANT
                 .skip(skip)
                 .limit(limit)
