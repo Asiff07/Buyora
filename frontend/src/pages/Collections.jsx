@@ -8,7 +8,12 @@ import ProductItem from '../components/ProductItem';
 
 const Collections = () => {
 
-  const { products,search,showSearch } = useContext(ShopContext);
+  const { search,showSearch,backendUrl } = useContext(ShopContext);
+  const [products, setProducts] = useState([]);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [loading, setLoading] = useState(false);
+
   const [showFilter, setShowFilter] = useState(false);
   const [filterProducts, setFilterProducts] = useState([]);
   const [category, setCategory] = useState([]);
@@ -62,6 +67,53 @@ const Collections = () => {
     }
   }
 
+
+  const fetchProducts = async (pageNumber) => {
+    if (loading) return;
+
+    setLoading(true);
+
+    try {
+      const res = await fetch(
+        `${backendUrl}/api/product/list?page=${pageNumber}&limit=10`
+      );
+      const data = await res.json();
+
+      if (data.products.length === 0) {
+        setHasMore(false);
+      } else {
+        setProducts(prev => [...prev, ...data.products]);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchProducts(1);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (
+        window.innerHeight + window.scrollY >= document.body.offsetHeight - 200 &&
+        hasMore &&
+        !loading
+      ) {
+        const nextPage = page + 1;
+        setPage(nextPage);
+        fetchProducts(nextPage);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, hasMore, loading]);
 
   useEffect(()=>{
     applyFilters();
@@ -126,6 +178,14 @@ const Collections = () => {
             <ProductItem key={index} id={item._id} name={item.name} image={item.image} price={item.price} />
           ))}
         </div>
+
+        {/* Loading Indicator */}
+        {loading && (
+          <div className="flex justify-center items-center py-8">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+            <span className="ml-2 text-gray-600 text-sm">Loading more products...</span>
+          </div>
+        )}
       </div>
     </div>
   )

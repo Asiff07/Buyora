@@ -37,7 +37,11 @@ const addProduct = async (req, res) => {
 
         const product = new productModel(productData);
         await product.save();
-        await redisClient.del('products:all');
+        try {
+            await redisClient.del('products:all');
+        } catch (err) {
+            console.error("Redis cache delete error in addProduct:", err);
+        }
 
         res.json({ success: true, msg: "Product Added Successfully" });
     } catch (err) {
@@ -48,34 +52,85 @@ const addProduct = async (req, res) => {
 
 //Fnx for list products
 const listProducts = async (req, res) => {
-    const cachedKey = 'products:all';
     try {
-        const cachedData = await redisClient.get(cachedKey);
+        // ---- 1. Validate query params ----
+        let page = parseInt(req.query.page) || 1;
+        let limit = parseInt(req.query.limit) || 10;
+
+        if (page < 1) page = 1;
+        if (limit < 1 || limit > 50) limit = 10; // prevent abuse
+
+        const skip = (page - 1) * limit;
+
+        const cacheKey = `products:${page}:${limit}`;
+
+        // ---- 2. Check Redis cache ----
+        let cachedData = null;
+        try {
+            cachedData = await redisClient.get(cacheKey);
+        } catch (err) {
+            console.error("Redis cache read error in listProducts:", err);
+        }
         if (cachedData) {
             return res.json({
                 success: true,
-                products: JSON.parse(cachedData),
-                source: 'redis'
+                ...JSON.parse(cachedData),
+                source: "redis"
             });
         }
+
+        // ---- 3. Fetch from DB ----
+        const [products, total] = await Promise.all([
+            productModel
+                .find({})
+                .select("name price image category subCategory")
+                .sort({ createdAt: -1 }) // IMPORTANT
+                .skip(skip)
+                .limit(limit)
+                .lean(),
+
+            productModel.countDocuments()
+        ]);
+
+        const responseData = {
+            products,
+            total,
+            page,
+            pages: Math.ceil(total / limit)
+        };
+
+        // ---- 4. Store in Redis ----
+        try {
+            await redisClient.setEx(cacheKey, 600, JSON.stringify(responseData));
+        } catch (err) {
+            console.error("Redis cache write error in listProducts:", err);
+        }
+
+        // ---- 5. Send response ----
+        res.json({
+            success: true,
+            ...responseData,
+            source: "mongodb"
+        });
+
     } catch (err) {
-        console.error('Redis error:', err);
+        console.error(err);
+        res.status(500).json({
+            success: false,
+            message: err.message
+        });
     }
-    try {
-        const products = await productModel.find({}).lean();
-        await redisClient.setEx(cachedKey, 600, JSON.stringify(products));
-        res.json({ success: true, products, source: 'mongodb' });
-    } catch (err) {
-        console.log(err);
-        res.json({ success: false, msg: err.message });
-    }
-}
+};
 //Fnx for removing products
 const removeProduct = async (req, res) => {
     try {
         await productModel.findByIdAndDelete(req.body.id);
-        await redisClient.del('products:all');
-        await redisClient.del(`product:${req.body.id}`);
+        try {
+            await redisClient.del('products:all');
+            await redisClient.del(`product:${req.body.id}`);
+        } catch (err) {
+            console.error("Redis cache delete error in removeProduct:", err);
+        }
         res.json({ success: true, msg: "Product Removed Successfully" });
     } catch (err) {
         console.log(err);
@@ -88,7 +143,12 @@ const singleProduct = async (req, res) => {
     const { id } = req.params;
     const cacheKey = `product:${id}`;
 
-    const cachedData = await redisClient.get(cacheKey);
+    let cachedData = null;
+    try {
+        cachedData = await redisClient.get(cacheKey);
+    } catch (err) {
+        console.error("Redis cache read error in singleProduct:", err);
+    }
     if (cachedData) {
       return res.json({
         success: true,
@@ -102,7 +162,11 @@ const singleProduct = async (req, res) => {
       return res.status(404).json({ success: false, msg: 'Product Not Found' });
     }
 
-    await redisClient.setEx(cacheKey, 600, JSON.stringify(product));
+    try {
+        await redisClient.setEx(cacheKey, 600, JSON.stringify(product));
+    } catch (err) {
+        console.error("Redis cache write error in singleProduct:", err);
+    }
     res.json({ success: true, product, source: 'mongodb' });
 
   } catch (err) {
