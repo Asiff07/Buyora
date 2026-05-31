@@ -2,7 +2,7 @@ services:
   - type: web
     name: buyora-backend
     env: node
-    plan: starter # Starter plan prevents instance sleeping
+    plan: free # Free tier (spin down after 15m inactivity, but 100% free with no credit card required)
     rootDir: backend
     buildCommand: npm install
     startCommand: npm start
